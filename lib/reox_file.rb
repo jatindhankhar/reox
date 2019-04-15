@@ -1,0 +1,2 @@
+class ReoxFile < File 
+end
