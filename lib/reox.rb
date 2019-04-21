@@ -1,31 +1,47 @@
-require_relative 'reox_io.rb'
-require_relative 'reox_file.rb'
+require_relative 'reox_io'
+require_relative 'reox_file'
 
 class Reox
-    DEFAULT_RECORDING_PATH = "recordings" 
-
-    def initialize(recording_path)
-        @recording_paths = recording_path || DEFAULT_RECORDING_PATH  
-    end
+    
+    FILE_NAMES = %w(input.log output.log error.log)
 
     def self.record 
-        input_log,output_log,error_log = setup_files
-        $stdout = ReoxIO.new(STDOUT,output_log)
-        $stderr = ReoxIO.new(STDERR,error_log)
+        hijack_streams
         yield
+        restore_streams
     end
+
+
+    def self.record!
+        hijack_streams
+    end
+
+    def self.stop!
+        restore_streams
+    end 
 
 
     private 
 
+    def self.hijack_streams
+        input_log,output_log,error_log = setup_files
+        $stdout = ReoxIO.new(STDOUT,output_log) unless $stdout.is_a? ReoxIO
+        $stderr = ReoxIO.new(STDERR,error_log) unless $stderr.is_a? ReoxIO
+    end 
+
+    def self.restore_streams
+        $stdout = STDOUT if $stdout.is_a? ReoxIO
+        $stderr = STDOUT if $stderr.is_a? ReoxIO
+    end 
+
     def self.setup_files
-        ["input.log","output.log","error.log"].map do |file_name|
-            self.setup_file(file_name)
+        FILE_NAMES.map do |file_name|
+            setup_file(file_name)
         end 
     end
 
     def self.setup_file(file_name)
-        file = ReoxFile.open(File.join(__dir__,file_name),"a")
+        file = ReoxFile.open(File.join(__dir__,file_name),mode: 'a')
         file.sync = true
         file
     end
