@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
     s.description = "A simple hello world gem"
     s.authors     = ["Jatin Dhankhar"]
     s.email       = 'jatin@jatindhankhar.in'
-    s.files       = ["lib/reox.rb"]
+    s.files       = ["lib/reox.rb","lib/reox_io.rb","lib/reox_file.rb"]
     s.homepage    =
       'http://rubygems.org/gems/reox'
     s.license       = 'MIT'

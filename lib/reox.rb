@@ -41,7 +41,7 @@ class Reox
     end
 
     def self.setup_file(file_name)
-        file = ReoxFile.open(File.join(__dir__,file_name),mode: 'a')
+        file = ReoxFile.open(File.join(Dir.pwd,file_name),mode: 'a')
         file.sync = true
         file
     end
