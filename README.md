@@ -1,7 +1,8 @@
 # Reox (Re(d+b)ox) 
+![Gem](https://img.shields.io/gem/v/reox.svg) ![GitHub](https://img.shields.io/github/license/jatindhankhar/reox.svg)
 
+<hr>
 Reox is a simple stream logger library. 
-
 
 ### Prerequisites
 
