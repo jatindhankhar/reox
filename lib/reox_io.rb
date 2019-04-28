@@ -1,28 +1,46 @@
 # Insipired from https://stackoverflow.com/a/6407200
+require 'logger'
 require_relative 'reox_file'
-class ReoxIO
-   $LOG_SEPARATOR = " --> ".freeze
-   def initialize(*streams)
-     @streams = streams
-     @verbose = true
-   end 
 
-   def write(*content)
-     @streams.each do |stream| 
-      if @verbose and stream.is_a? ReoxFile and not content.join.strip.empty?
-        stream.write([caller[2],$LOG_SEPARATOR,*content].join)
+# ReoxIO mimics the IO class for STDOUT and STDERR,
+# As well as injects the ReoxFile with logs
+class ReoxIO
+  OUT = :out
+  ERR = :err
+
+  def initialize(streams, opts = {})
+    @streams = streams
+    @verbose = opts[:verbose] || false
+    @type = opts[:type] || OUT
+    @formatter = Logger::Formatter.new if @verbose
+  end
+
+  def write(*content)
+    @streams.each do |stream|
+      if @verbose && stream.is_a?(ReoxFile) && !content.join.strip.empty?
+        message = get_log_message(severity_level, caller(3..3).first, content.join)
+        stream.write(message)
       else
         stream.write(*content)
-      end    
-     end 
-   end
+      end
+    end
+  end
 
-   def flush
+  def flush
     @streams.each(&:flush)
-   end
+  end
 
-   def close
-    @streams.each(&:close) 
-   end
-      
+  def close
+    @streams.each(&:close)
+  end
+
+  private
+
+  def severity_level
+    @type == OUT ? :INFO : :ERROR
+  end
+
+  def get_log_message(severity, progname, msg)
+    @formatter.call(severity, Time.now, progname, msg)
+  end
 end

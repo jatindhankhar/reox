@@ -1,2 +1,2 @@
-class ReoxFile < File 
+class ReoxFile < File
 end
