@@ -1,5 +1,5 @@
 # Reox (Re(d+b)ox) 
-![Gem](https://img.shields.io/gem/v/reox.svg) ![GitHub](https://img.shields.io/github/license/jatindhankhar/reox.svg)
+![Gem](https://img.shields.io/gem/v/reox.svg) ![GitHub](https://img.shields.io/github/license/jatindhankhar/reox.svg) [![CodeFactor](https://www.codefactor.io/repository/github/jatindhankhar/reox/badge)](https://www.codefactor.io/repository/github/jatindhankhar/reox) [![Coverage Status](https://coveralls.io/repos/github/jatindhankhar/reox/badge.svg?branch=master)](https://coveralls.io/github/jatindhankhar/reox?branch=master) [![Build Status](https://travis-ci.org/jatindhankhar/reox.svg?branch=master)](https://travis-ci.org/jatindhankhar/reox)
 
 Reox is a simple stream logger library.
 
